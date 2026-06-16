@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KCS Sweepstakes 2026</title>
+    <link id="tabIcon" rel="icon" type="image/x-icon" href="">
+    <style>
+        :root {
+            --bg:        #0d1117;
+            --bg-card:   #161c2a;
+            --bg-hdr:    #1c2342;
+            --border:    #2a3554;
+            --text-1:    #e4eaf6;
+            --text-2:    #5e6e90;
+            --accent:    #4d7ee8;
+            --gold:      #f5a623;
+            --vs:        #e85c6e;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text-1);
+            padding: 36px 20px;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 46px 0;
+        }
+
+        /* ═══ 1. PHOTO UPLOAD ═══════════════════════════════ */
+        #photoSection { display: flex; justify-content: center; }
+
+        #photoLabel {
+            border: 2px dashed var(--border);
+            border-radius: 14px;
+            background: var(--bg-card);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            max-width: 100%;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        #photoLabel:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(77,126,232,.12);
+        }
+
+        #mainPreview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ═══ 2. CONFIGURABLE BLOCK ═════════════════════════ */
+        #blockSection { display: flex; justify-content: center; }
+
+        #configBlock {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        #configImage {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ═══ 3. BRACKET ════════════════════════════════════ */
+        .bracket-outer {
+            overflow-x: auto;
+            padding-bottom: 6px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .b-wrap {
+            position: relative;
+            width: 1200px;  /*########## Changing this ############*/
+            height: 310px;
+            margin: 0 auto; 
+        }
+
+        .b-svg {
+            position: absolute; top: 0; left: 0;
+            width: 1200px; height: 310px;  /*########## Changing this ############*/
+            pointer-events: none;
+        }
+
+        .b-box {
+            position: absolute;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            padding: 0 10px;
+            z-index: 2;
+            cursor: default;
+            transform: translateX(-50%);
+            transition: transform .15s, box-shadow .15s;
+        }
+        .b-box:hover { transform: translateX(-50%) translateY(-2px); }
+
+        /* Final */
+        .b-final {
+            min-width: 200px; width: max-content; height: 70px;
+            left: 600px; top: 0;                                             /*########## Changing this ############*/
+            background: linear-gradient(135deg, rgba(125, 92, 15, 0.866), rgba(125, 92, 15, 0.866));
+            border: 1.5px solid var(--gold);
+            box-shadow: 0 0 22px rgba(245,166,35,.18);
+        }
+
+        /* Semis & Mid-Semi */
+        .b-semi {
+            min-width: 180px; width: max-content; height: 65px;
+            top: 120px;
+            background: linear-gradient(135deg, #0e1c3e, #15244e);
+            border: 1.5px solid var(--accent);
+            box-shadow: 0 0 14px rgba(77,126,232,.14);
+        }
+        .b-sf1 { left: 300px; }                                            /*########## Changing this ############*/
+        .b-sf2 { left: 900px; }                                            /*########## Changing this ############*/
+        
+        .b-semi-mid {
+            left: 600px;                                                   /*########## Changing this ############*/
+            background: linear-gradient(135deg, #904c08, #a45b08); /* Example: Purple gradient */
+            border: 1.5px solid rgb(159, 84, 14); /* Example: Purple border */
+            box-shadow: 0 0 16px rgba(115, 77, 5, 0.781); /* Example: Purple glow */
+        }
+        .b-semi-mid .t-name { color: #1c1203; }
+
+        /* Quarters */
+        .b-quarter {
+            min-width: 165px; width: max-content; height: 60px;
+            top: 245px;
+            background: linear-gradient(135deg, #0d1520, #101c2c);
+            border: 1.5px solid var(--border);
+        }                                                                /*########## Changing this ############*/
+        .b-q1 { left: 150px; }
+        .b-q2 { left: 450px; }
+        .b-q3 { left: 750px; }
+        .b-q4 { left: 1050px; }
+
+        /* ═══ 3.5 INDEPENDENT BRACKETS ══════════════════════ */
+        .independent-outer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Override absolute positioning so they stack neatly */
+        .b-standalone {
+            position: relative;
+            transform: none;
+            left: auto;
+            top: auto;
+            min-width: 280px;
+            max-width: 100%; /* Keeps it from breaking mobile screens */
+            height: 60px;
+            background: linear-gradient(135deg, #121826, #1a2235);
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .b-standalone:hover {
+            transform: translateY(-2px); /* Only move up, no horizontal transform needed here */
+            border-color: var(--accent);
+        }
+
+        /* Matchup inner layout */
+        .matchup {
+            display: flex; align-items: center;
+            width: 100%; gap: 6px;
+        }
+        
+        /* Prize Icon Button (Glowing Euro Text) */
+        .prize-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px; 
+            height: 18px;
+            cursor: pointer;
+            flex-shrink: 0;
+            color: #ffeba8; 
+            font-size: 25px;
+            font-weight: 900;
+            transition: transform 0.2s, text-shadow 0.2s;
+            text-shadow: 
+                0 0 4px #f5a623,
+                0 0 8px #f5a623,
+                0 0 14px #f5a623;
+            user-select: none;
+        }
+        .prize-btn:hover {
+            transform: scale(1.25);
+            text-shadow: 
+                0 0 4px #fff,
+                0 0 10px #f5a623,
+                0 0 18px #f5a623,
+                0 0 24px #f5a623;
+        }
+
+        .team-side {
+            display: flex; align-items: center;
+            flex: 1; gap: 6px;
+        }
+        .team-side.right { flex-direction: row-reverse; }
+
+        .t-img {
+            width: 35px; 
+            height: 35px;
+            border-radius: 5px;
+            object-fit: cover;
+            flex-shrink: 0; 
+            border: 1px solid var(--border);
+        }
+        .t-name {
+            font-size: 13px; 
+            font-weight: 600;
+            white-space: nowrap; 
+            color: var(--text-1);
+            flex: 1;
+            line-height: 1.2;
+        }
+        .b-final .t-name { color: var(--gold); font-size: 15px; }
+        .b-semi  .t-name { color: #a0beff; font-size: 13px; }
+
+        .vs-pill {
+            font-size: 8px; font-weight: 800; letter-spacing: .5px;
+            color: var(--vs);
+            background: rgba(232,92,110,.13);
+            padding: 2px 5px; border-radius: 4px;
+            flex-shrink: 0;
+            margin: 0 4px;
+        }
+
+        /* ═══ 4. TABLES ═════════════════════════════════════ */
+        .tables-wrap { max-width: 1060px; margin: 0 auto; }
+        .t-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .t-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+        .tc-hdr { background: var(--bg-hdr); padding: 9px 13px; font-size: 15px; font-weight: 700; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; }
+        .d-tbl { width: 100%; border-collapse: collapse; }
+        .d-tbl td { border: 1px solid var(--border); padding: 6px 7px; vertical-align: middle; }
+        .h-row td { background: rgba(28,35,66,.5); text-align: center; font-size: 15px; font-weight: 600; color: var(--text-2); }
+        .d-row .c-img { text-align: center; width: 52px; }
+        .r-img { display: block; margin: 0 auto; width: 34px; height: 34px; border-radius: 6px; object-fit: cover; border: 1px solid var(--border); }
+        .d-row .c-txt { font-size: 15px; color: var(--text-1); }
+        .d-row .c-num { text-align: center; width: 42px; font-size: 15px; font-weight: 700; color: var(--accent); }
+        .rnk { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 50%; font-size: 12px; font-weight: 800; margin-right: 5px; vertical-align: middle; flex-shrink: 0; }
+        .rnk-1 { background: #f5a623; color: #000; }
+        .rnk-2 { background: #94a3b8; color: #000; }
+        .rnk-3 { background: #b87333; color: #fff; }
+        .rnk-4 { background: var(--border); color: var(--text-2); }
+
+        /* ═══ 5. MODAL / POPUP ══════════════════════════════ */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(13, 17, 23, 0.85); z-index: 9999;
+            align-items: center; justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-content {
+            position: relative;
+            max-width: 90%; max-height: 90%;
+            border: 2px solid var(--gold); border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            background: var(--bg-card);
+            padding: 4px;
+        }
+        .modal-content img {
+            max-width: 100%; max-height: 85vh; border-radius: 8px; display: block;
+        }
+        .close-btn {
+            position: absolute; top: -16px; right: -16px;
+            width: 32px; height: 32px; background: var(--vs); color: #fff;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 18px; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5); border: 2px solid #fff;
+        }
+        .close-btn:hover { background: #ff4a5f; transform: scale(1.1); }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) { .t-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 540px) {
+            body { padding: 16px 10px; }
+            .t-grid { grid-template-columns: 1fr; }
+            .divider { margin: 28px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="photoSection">
+    <div id="photoLabel">
+        <img id="mainPreview" src="A Event Logo.png" alt="Main Tournament Image">
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<div id="blockSection">
+    <div id="configBlock">
+        <img id="configImage" src="B Tournament Schedule.svg" alt="Config Image">
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="bracket-outer">
+    <div class="b-wrap" id="bWrap">
+        <svg class="b-svg" viewBox="0 0 1200 310" xmlns="http://www.w3.org/2000/svg">
+            <line x1="600" y1="70"  x2="600" y2="95"  stroke="#2a3554" stroke-width="2"/>
+            <line x1="300" y1="95"  x2="900" y2="95"  stroke="#2a3554" stroke-width="2"/>
+            <line x1="300" y1="95"  x2="300" y2="120" stroke="#2a3554" stroke-width="2"/>
+            <line x1="900" y1="95"  x2="900" y2="120" stroke="#2a3554" stroke-width="2"/>
+
+            <line x1="250" y1="152" x2="950" y2="152" stroke="#4d7ee8" stroke-width="2" stroke-dasharray="6,4"/>
+
+            <line x1="300" y1="185" x2="300" y2="215" stroke="#2a3554" stroke-width="2"/>
+            <line x1="150" y1="215" x2="450" y2="215" stroke="#2a3554" stroke-width="2"/>
+            <line x1="150" y1="215" x2="150" y2="245" stroke="#2a3554" stroke-width="2"/>
+            <line x1="450" y1="215" x2="450" y2="245" stroke="#2a3554" stroke-width="2"/>
+            
+            <line x1="900" y1="185" x2="900" y2="215" stroke="#2a3554" stroke-width="2"/>
+            <line x1="750" y1="215" x2="1050" y2="215" stroke="#2a3554" stroke-width="2"/>
+            <line x1="750" y1="215" x2="750" y2="245" stroke="#2a3554" stroke-width="2"/>
+            <line x1="1050" y1="215" x2="1050" y2="245" stroke="#2a3554" stroke-width="2"/>
+        </svg>
+    </div>
+</div>
+
+<div class="independent-outer" id="independentWrap">
+    </div>
+
+<div class="divider"></div>
+
+<div class="tables-wrap">
+    <div class="t-grid" id="tGrid"></div>
+</div>
+
+<div id="prizeModal" class="modal-overlay" onclick="closePrize(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="close-btn" onclick="closePrize(event)">×</div>
+        <img id="prizeImageDisplay" src="" alt="Prize Details">
+    </div>
+</div>
+
+
+<script>
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║              ★  CONFIGURATION — EDIT THIS BLOCK  ★              ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
+
+/* ── 0. Tab Icon (Favicon) ────────────────────────────────────────── */
+const BROWSER_TAB_ICON = "R:\\3 Analyst Skills\\Sweepstake Website\\Page Folder\\Tab icon.png";
+if(BROWSER_TAB_ICON) document.getElementById('tabIcon').href = BROWSER_TAB_ICON;
+
+/* ── 1. Photo Upload size ─────────────────────────────────────────── */
+const PHOTO_W = 400;   
+const PHOTO_H = 240;   
+
+/* ── 2. Configurable Block size ───────────────────────────────────── */
+const BLOCK_W = 500;   
+const BLOCK_H = 500;   
+
+/* Apply dimensions from config */
+document.getElementById('photoLabel').style.cssText  += `width:${PHOTO_W}px;height:${PHOTO_H}px;`;
+document.getElementById('configBlock').style.cssText += `width:${BLOCK_W}px;height:${BLOCK_H}px;`;
+
+/* ── 3. Bracket ───────────────────────────────────────────────────── */
+const BRACKET = {
+  final: {
+    left:  { img: "", name: "Finalist 1", prizeImg: "150euro.jpg" },
+    right: { img: "", name: "Finalist 2", prizeImg: "60euro.jpg" },
+  },
+  midSemi: {
+    left:  { img: "", name: "Bronze 1", prizeImg: "30euro.jpg" },
+    right: { img: "", name: "Bronze 2", prizeImg: "20euro.jpg" },
+  },
+  semis: [
+    { left: { img: "", name: "SF1", prizeImg: "10euro.jpg"  }, right: { img: "", name: "SF1", prizeImg: "10euro.jpg" } },
+    { left: { img: "", name: "SF2", prizeImg: "10euro.jpg"  }, right: { img: "", name: "SF2", prizeImg: "10euro.jpg" } },
+  ],
+  quarters: [
+    { left: { img: "", name: "QF1", prizeImg: "10euro.jpg" }, right: { img: "", name: "QF1", prizeImg: "10euro.jpg" } },
+    { left: { img: "", name: "QF2", prizeImg: "10euro.jpg" }, right: { img: "", name: "QF2", prizeImg: "10euro.jpg" } },
+    { left: { img: "", name: "QF3", prizeImg: "10euro.jpg" }, right: { img: "", name: "QF3", prizeImg: "10euro.jpg" } },
+    { left: { img: "", name: "QF4", prizeImg: "10euro.jpg" }, right: { img: "", name: "QF4", prizeImg: "10euro.jpg" } },
+  ],
+  // NEW: Standalone matches that stack infinitely below the main tree
+  standalone: [
+    { left: { img: "", name: "TBD", prizeImg: "10euro.jpg" }, right: { img: "", name: "TBD", prizeImg: "10euro.jpg" } },
+    { left: { img: "", name: "TBD", prizeImg: "10euro.jpg" }, right: { img: "", name: "TBD", prizeImg: "10euro.jpg" } }
+  ]
+};
+
+/* ── 4. Tables ────────────────────────────────────────────────────── */
+const TABLES = [
+  {
+    title: "Group A",
+    headers: ["Carl vs Smithy", "Will Carl's Mexico be the group's leader or Smithy's South Korea?"],
+    rows: [
+      { rank: 1, img: "Group A/Mexico.png", text: "Mexico", number: 3 },
+      { rank: 2, img: "Group A/South Korea.png", text: "South Korea", number:  3 },
+      { rank: 3, img: "Group A/Czechia.png", text: "Czechia", number:  0 },
+      { rank: 4, img: "Group A/South Africa.png", text: "South Africa", number:  0 },
+    ],
+  },
+  {
+    title: "Group B",
+    headers: ["Evelyn vs Alan", "Evelyn's Canada vs Alan's Switzerland, who will come out on top?"],
+    rows: [
+      { rank: 2, img: "Group B/Canada.png", text: "Canada", number:  1 },
+      { rank: 4, img: "Group B/Bosnia and Herzegovina.png", text: "Bosnia and Herzegovina", number: 1 },
+      { rank: 3, img: "Group B/Qatar.png", text: "Qatar", number:  1 },
+      { rank: 1, img: "Group B/Switzerland.png", text: "Switzerland", number:  1 },
+    ],
+  },
+  {
+    title: "Group C",
+    headers: ["Alex vs Chris vs Angela", "Who will dominate Group C? Alex's Brazil, Chris's Morocco, or Angela's Haiti?"],
+    rows: [
+      { rank: 3, img: "Group C/Brazil.png", text: "Brazil", number: 1 },
+      { rank: 2, img: "Group C/Morocco.png", text: "Morocco", number:  1 },
+      { rank: 4, img: "Group C/Haiti.png", text: "Haiti", number:  0 },
+      { rank: 1, img: "Group C/Scotland.png", text: "Scotland", number:  3 },
+    ],
+  },
+  {
+    title: "Group D",
+    headers: ["Lamber vs Carl vs Ryan", "Lamber's USA, Carl's Paraguay, or Ryan's Australia? Who will rise to the top of Group D?"],
+    rows: [
+      { rank: 1, img: "Group D/USA.png", text: "USA", number: 3 },
+      { rank: 4, img: "Group D/Paraguay.png", text: "Paraguay", number:  0 },
+      { rank: 2, img: "Group D/Australia.png", text: "Australia", number:  3 },
+      { rank: 3, img: "Group D/Türkiye.png", text: "Türkiye", number:  0 },
+    ],
+  },
+  {
+    title: "Group E",
+    headers: ["Ross vs Niall", "Ross's Germany fighting Niall's Ecuador, who will emerge victorious in Group E?"],
+    rows: [
+      { rank: 1, img: "Group E/Germany.png", text: "Germany", number: 3 },
+      { rank: 4, img: "Group E/Curaçao.png", text: "Curaçao", number:  0 },
+      { rank: 2, img: "Group E/Ivory Coast.png", text: "Ivory Coast", number:  3 },
+      { rank: 3, img: "Group E/Ecuador.png", text: "Ecuador", number:  0 },
+    ],
+  },
+  {
+    title: "Group F",
+    headers: ["Eddie vs Lamber", "Eddie's Netherlands vs Lamber's Japan, who will take the lead in Group F?"],
+    rows: [
+      { rank: 3, img: "Group F/Netherlands.png", text: "Netherlands", number: 1 },
+      { rank: 2, img: "Group F/Japan.png", text: "Japan", number:  1 },
+      { rank: 1, img: "Group F/Sweden.png", text: "Sweden", number:  3 },
+      { rank: 4, img: "Group F/Tunisia.png", text: "Tunisia", number:  0 },
+    ],
+  },
+  {
+    title: "Group G",
+    headers: ["Angela vs Chris vs Evelyn", "Angela's Belgium, Chris's Egypt, or Evelyn's Iran? Who will rise to the top of Group G?"],
+    rows: [
+      { rank: 1, img: "Group G/Belgium.png", text: "Belgium", number: 1 },
+      { rank: 2, img: "Group G/Egypt.png", text: "Egypt", number:  1 },
+      { rank: 3, img: "Group G/Iran.png", text: "Iran", number:  0 },
+      { rank: 4, img: "Group G/New Zealand.png", text: "New Zealand", number:  0 },
+    ],
+  },
+  {
+    title: "Group H",
+    headers: ["Ryan vs Smithy", "Ryan's Spain vs Smithy's Uruguay, who will take the crown in Group H?"],
+    rows: [
+      { rank: 3, img: "Group H/Spain.png", text: "Spain", number: 1 },
+      { rank: 4, img: "Group H/Cabo Verde.png", text: "Cabo Verde", number:  1 },
+      { rank: 2, img: "Group H/Saudi Arabia.png", text: "Saudi Arabia", number:  1 },
+      { rank: 1, img: "Group H/Uruguay.png", text: "Uruguay", number:  1 },
+    ],
+  },
+  {
+    title: "Group I",
+    headers: ["(Aideen vs Aideen) vs Eddie", "Aideen's France and Senegal battling among themselves and later Eddie's Norway, who will come out on top in Group I?"],
+    rows: [
+      { rank: 1, img: "Group I/France.png", text: "France", number: 0 },
+      { rank: 2, img: "Group I/Senegal.png", text: "Senegal", number:  0 },
+      { rank: 3, img: "Group I/Iraq.png", text: "Iraq", number:  0 },
+      { rank: 4, img: "Group I/Norway.png", text: "Norway", number:  0 },
+    ],
+  },
+  {
+    title: "Group J",
+    headers: ["(Macker vs Macker) vs GG", "Macker's Argentina and Algeria battling among themselves and later GG's Austria, who will come out on top in Group J?"],
+    rows: [
+      { rank: 1, img: "Group J/Argentina.png", text: "Argentina", number: 0 },
+      { rank: 2, img: "Group J/Algeria.png", text: "Algeria", number:  0 },
+      { rank: 3, img: "Group J/Austria.png", text: "Austria", number:  0 },
+      { rank: 4, img: "Group J/Jordan.png", text: "Jordan", number:  0 },
+    ],
+  },
+  {
+    title: "Group K",
+    headers: ["GG vs Ross", "GG's Portugal vs Ross's Colombia, who will take the lead in Group K?"],
+    rows: [
+      { rank: 1, img: "Group K/Portugal.png", text: "Portugal", number: 0 },
+      { rank: 2, img: "Group K/DR Congo.png", text: "DR Congo", number:  0 },
+      { rank: 3, img: "Group K/Uzbekistan.png", text: "Uzbekistan", number:  0 },
+      { rank: 4, img: "Group K/Colombia.png", text: "Colombia", number:  0 },
+    ],
+  },
+  {
+    title: "Group L",
+    headers: ["Alan vs Niall vs Alex", "Alan's England, Niall's Croatia, or Alex's Panama? Who will rise to the top of Group L?"],
+    rows: [
+      { rank: 1, img: "Group L/England.png", text: "England", number: 0 },
+      { rank: 2, img: "Group L/Croatia.png", text: "Croatia", number:  0 },
+      { rank: 3, img: "Group L/Ghana.png", text: "Ghana", number:  0 },
+      { rank: 4, img: "Group L/Panama.png", text: "Panama", number:  0 },
+    ],
+  },
+];
+
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║           RENDER ENGINE — no need to edit below                 ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
+
+const PH_ROUND = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Ccircle cx='13' cy='13' r='13' fill='%231c2440'/%3E%3Ccircle cx='13' cy='10' r='4.5' fill='%233a4870'/%3E%3Cellipse cx='13' cy='21' rx='7' ry='4.5' fill='%233a4870'/%3E%3C/svg%3E";
+const PH_RECT  = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34'%3E%3Crect width='34' height='34' rx='6' fill='%23161c2a'/%3E%3Crect x='1' y='1' width='32' height='32' rx='5' fill='none' stroke='%232a3554' stroke-width='1'/%3E%3Ccircle cx='17' cy='13' r='5' fill='%233a4870'/%3E%3Cellipse cx='17' cy='26' rx='8' ry='5' fill='%233a4870'/%3E%3C/svg%3E";
+
+/* Modal control logic */
+function showPrize(imgUrl) {
+    if (!imgUrl || imgUrl === 'YOUR_PRIZE_IMAGE_PATH.jpg') {
+        alert("Please link a valid image path in the config!");
+        return;
+    }
+    const modal = document.getElementById('prizeModal');
+    document.getElementById('prizeImageDisplay').src = imgUrl;
+    modal.classList.add('active');
+}
+
+function closePrize(event) {
+    if(event) event.stopPropagation();
+    document.getElementById('prizeModal').classList.remove('active');
+    document.getElementById('prizeImageDisplay').src = "";
+}
+
+/* Build matchup HTML for a bracket box */
+function matchupHTML(data) {
+    const li = data.left.img  || PH_ROUND;
+    const ri = data.right.img || PH_ROUND;
+    
+    const prizeL = data.left.prizeImg || "";
+    const prizeR = data.right.prizeImg || "";
+
+    return `<div class="matchup">
+        <div class="prize-btn" onclick="showPrize('${prizeL}')" title="View Winnings">€</div>
+        <div class="team-side">
+            <img class="t-img" src="${li}" alt="${data.left.name}">
+            <span class="t-name">${data.left.name}</span>
+        </div>
+        <span class="vs-pill">VS</span>
+        <div class="team-side right">
+            <img class="t-img" src="${ri}" alt="${data.right.name}">
+            <span class="t-name">${data.right.name}</span>
+        </div>
+        <div class="prize-btn" onclick="showPrize('${prizeR}')" title="View Winnings">€</div>
+    </div>`;
+}
+
+/* Render MAIN bracket */
+const bWrap = document.getElementById('bWrap');
+function addBox(cls, data) {
+    const d = document.createElement('div');
+    d.className = 'b-box ' + cls;
+    d.innerHTML = matchupHTML(data);
+    bWrap.appendChild(d);
+}
+
+addBox('b-final',          BRACKET.final);
+addBox('b-semi b-semi-mid', BRACKET.midSemi); 
+addBox('b-semi b-sf1',     BRACKET.semis[0]);
+addBox('b-semi b-sf2',     BRACKET.semis[1]);
+BRACKET.quarters.forEach((q, i) => addBox(`b-quarter b-q${i + 1}`, q));
+
+/* Render STANDALONE brackets */
+const indWrap = document.getElementById('independentWrap');
+if (BRACKET.standalone) {
+    BRACKET.standalone.forEach(match => {
+        const d = document.createElement('div');
+        // We use b-box for inner contents, but b-standalone overrides positioning
+        d.className = 'b-box b-standalone'; 
+        d.innerHTML = matchupHTML(match);
+        indWrap.appendChild(d);
+    });
+}
+
+/* Render tables */
+function buildTable(td) {
+    const card = document.createElement('div');
+    card.className = 't-card';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'tc-hdr';
+    hdr.textContent = td.title;
+    card.appendChild(hdr);
+
+    const tbl   = document.createElement('table');
+    tbl.className = 'd-tbl';
+    const tbody = document.createElement('tbody');
+
+    td.headers.forEach(txt => {
+        const tr   = document.createElement('tr');
+        tr.className = 'h-row';
+        const cell = document.createElement('td');
+        cell.colSpan = 3;
+        cell.textContent = txt;
+        tr.appendChild(cell);
+        tbody.appendChild(tr);
+    });
+
+    [...td.rows].sort((a, b) => a.rank - b.rank).forEach(row => {
+        const tr = document.createElement('tr');
+        tr.className = 'd-row';
+
+        const tdImg = document.createElement('td');
+        tdImg.className = 'c-img';
+        const img = document.createElement('img');
+        img.className = 'r-img';
+        img.src = row.img || PH_RECT;
+        img.alt = row.text;
+        tdImg.appendChild(img);
+
+        const tdTxt = document.createElement('td');
+        tdTxt.className = 'c-txt';
+        tdTxt.innerHTML = `<span class="rnk rnk-${row.rank}">${row.rank}</span>${row.text}`;
+
+        const tdNum = document.createElement('td');
+        tdNum.className = 'c-num';
+        tdNum.textContent = row.number;
+
+        tr.append(tdImg, tdTxt, tdNum);
+        tbody.appendChild(tr);
+    });
+
+    tbl.appendChild(tbody);
+    card.appendChild(tbl);
+    return card;
+}
+
+const tGrid = document.getElementById('tGrid');
+TABLES.forEach(t => tGrid.appendChild(buildTable(t)));
+</script>
+</body>
+</html>
