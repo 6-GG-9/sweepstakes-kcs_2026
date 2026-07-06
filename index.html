@@ -399,15 +399,21 @@ const BRACKET = {
     { left: { img: "", name: "SF2", prizeImg: "10euro.jpg"  }, right: { img: "", name: "SF2", prizeImg: "10euro.jpg" } },
   ],
   quarters: [
-    { left: { img: "", name: "QF1", prizeImg: "10euro.jpg" }, right: { img: "", name: "QF1", prizeImg: "10euro.jpg" } },
+    { left: { img: "Group I/France.png", name: "Aideen", prizeImg: "10euro.jpg" }, right: { img: "Group C/Morocco.png", name: "Chris", prizeImg: "10euro.jpg" } },
     { left: { img: "", name: "QF2", prizeImg: "10euro.jpg" }, right: { img: "", name: "QF2", prizeImg: "10euro.jpg" } },
-    { left: { img: "", name: "QF3", prizeImg: "10euro.jpg" }, right: { img: "", name: "QF3", prizeImg: "10euro.jpg" } },
+    { left: { img: "Group I/Norway.png", name: "Eddie", prizeImg: "10euro.jpg" }, right: { img: "", name: "QF3", prizeImg: "10euro.jpg" } },
     { left: { img: "", name: "QF4", prizeImg: "10euro.jpg" }, right: { img: "", name: "QF4", prizeImg: "10euro.jpg" } },
   ],
   // NEW: Standalone matches that stack infinitely below the main tree
   standalone: [
-    { left: { img: "", name: "TBD", prizeImg: "10euro.jpg" }, right: { img: "", name: "TBD", prizeImg: "10euro.jpg" } },
-    { left: { img: "", name: "TBD", prizeImg: "10euro.jpg" }, right: { img: "", name: "TBD", prizeImg: "10euro.jpg" } }
+    { left: { img: "Group B/Canada.png", name: "<span><del>Evelyn</del></span> 0", prizeImg: "10euro.jpg" }, right: { img: "Group C/Morocco.png", name: "3 Chris", prizeImg: "10euro.jpg" } },
+    { left: { img: "Group D/Paraguay.png", name: "<span><del>Carl</del></span> 0", prizeImg: "10euro.jpg" }, right: { img: "Group I/France.png", name: "1 Aideen", prizeImg: "10euro.jpg" } },
+    { left: { img: "Group D/USA.png", name: "Lamber", prizeImg: "10euro.jpg" }, right: { img: "Group G/Belgium.png", name: "Angela", prizeImg: "10euro.jpg" } },
+    { left: { img: "Group K/Portugal.png", name: "GG", prizeImg: "10euro.jpg" }, right: { img: "Group H/Spain.png", name: "Ryan", prizeImg: "10euro.jpg" } },
+    { left: { img: "Group C/Brazil.png", name: "<span><del>Alex</del></span> 1", prizeImg: "10euro.jpg" }, right: { img: "Group I/Norway.png", name: "2 Eddie", prizeImg: "10euro.jpg" } },
+    { left: { img: "Group A/Mexico.png", name: "Carl", prizeImg: "10euro.jpg" }, right: { img: "Group L/England.png", name: "Alan", prizeImg: "10euro.jpg" } },
+    { left: { img: "Group B/Switzerland.png", name: "Alan", prizeImg: "10euro.jpg" }, right: { img: "Group K/Colombia.png", name: "Ross", prizeImg: "10euro.jpg" } },
+    { left: { img: "Group J/Argentina.png", name: "Macker", prizeImg: "10euro.jpg" }, right: { img: "Group G/Egypt.png", name: "Chris", prizeImg: "10euro.jpg" } }
   ]
 };
 
@@ -415,7 +421,7 @@ const BRACKET = {
 const TABLES = [
   {
     title: "Group A",
-    headers: ["Carl vs Smithy", "Will Carl's Mexico be the group's leader or Smithy's South Korea?"],
+    headers: ["Mexico Wins","Carl vs Smithy", "Will Carl's Mexico be the group's leader or Smithy's South Korea?"],
     rows: [
       { rank: 1, img: "Group A/Mexico.png", text: "Mexico", number: 9 },
       { rank: 3, img: "Group A/South Korea.png", text: "South Korea", number:  3 },
@@ -425,7 +431,7 @@ const TABLES = [
   },
   {
     title: "Group B",
-    headers: ["Evelyn vs Alan", "Evelyn's Canada vs Alan's Switzerland, who will come out on top?"],
+    headers: ["Switzerland Wins","Evelyn vs Alan", "Evelyn's Canada vs Alan's Switzerland, who will come out on top?"],
     rows: [
       { rank: 2, img: "Group B/Canada.png", text: "Canada", number:  4 },
       { rank: 3, img: "Group B/Bosnia and Herzegovina.png", text: "Bosnia and Herzegovina", number: 4 },
@@ -435,7 +441,7 @@ const TABLES = [
   },
   {
     title: "Group C",
-    headers: ["Alex vs Chris vs Angela", "Who will dominate Group C? Alex's Brazil, Chris's Morocco, or Angela's Haiti?"],
+    headers: ["Brazil Wins","Alex vs Chris vs Angela", "Who will dominate Group C? Alex's Brazil, Chris's Morocco, or Angela's Haiti?"],
     rows: [
       { rank: 1, img: "Group C/Brazil.png", text: "Brazil", number: 7 },
       { rank: 2, img: "Group C/Morocco.png", text: "Morocco", number:  7 },
@@ -445,7 +451,7 @@ const TABLES = [
   },
   {
     title: "Group D",
-    headers: ["Lamber vs Carl vs Ryan", "Lamber's USA, Carl's Paraguay, or Ryan's Australia? Who will rise to the top of Group D?"],
+    headers: ["USA Wins","Lamber vs Carl vs Ryan", "Lamber's USA, Carl's Paraguay, or Ryan's Australia? Who will rise to the top of Group D?"],
     rows: [
       { rank: 1, img: "Group D/USA.png", text: "USA", number: 6 },
       { rank: 3, img: "Group D/Paraguay.png", text: "Paraguay", number:  4 },
@@ -455,7 +461,7 @@ const TABLES = [
   },
   {
     title: "Group E",
-    headers: ["Ross vs Niall", "Ross's Germany fighting Niall's Ecuador, who will emerge victorious in Group E?"],
+    headers: [ "Germany Wins", "Ross vs Niall", "Ross's Germany fighting Niall's Ecuador, who will emerge victorious in Group E?" ],
     rows: [
       { rank: 1, img: "Group E/Germany.png", text: "Germany", number: 6 },
       { rank: 4, img: "Group E/Curaçao.png", text: "Curaçao", number:  1 },
@@ -465,7 +471,7 @@ const TABLES = [
   },
   {
     title: "Group F",
-    headers: ["Eddie vs Lamber", "Eddie's Netherlands vs Lamber's Japan, who will take the lead in Group F?"],
+    headers: ["Netherlands Wins","Eddie vs Lamber", "Eddie's Netherlands vs Lamber's Japan, who will take the lead in Group F?"],
     rows: [
       { rank: 1, img: "Group F/Netherlands.png", text: "Netherlands", number: 7 },
       { rank: 2, img: "Group F/Japan.png", text: "Japan", number:  5 },
@@ -475,7 +481,7 @@ const TABLES = [
   },
   {
     title: "Group G",
-    headers: ["Angela vs Chris vs Evelyn", "Angela's Belgium, Chris's Egypt, or Evelyn's Iran? Who will rise to the top of Group G?"],
+    headers: ["Belgium & Egypt Wins","Angela vs Chris vs Evelyn", "Angela's Belgium, Chris's Egypt, or Evelyn's Iran? Who will rise to the top of Group G?"],
     rows: [
       { rank: 1, img: "Group G/Belgium.png", text: "Belgium", number: 5 },
       { rank: 2, img: "Group G/Egypt.png", text: "Egypt", number:  5 },
@@ -485,7 +491,7 @@ const TABLES = [
   },
   {
     title: "Group H",
-    headers: ["Ryan vs Smithy", "Ryan's Spain vs Smithy's Uruguay, who will take the crown in Group H?"],
+    headers: ["Spain Wins","Ryan vs Smithy", "Ryan's Spain vs Smithy's Uruguay, who will take the crown in Group H?"],
     rows: [
       { rank: 1, img: "Group H/Spain.png", text: "Spain", number: 7 },
       { rank: 2, img: "Group H/Cabo Verde.png", text: "Cabo Verde", number:  3 },
@@ -495,7 +501,7 @@ const TABLES = [
   },
   {
     title: "Group I",
-    headers: ["Aideen vs Aideen vs Eddie", "Aideen's France and Senegal battling among themselves and later Eddie's Norway, who will come out on top in Group I?"],
+    headers: ["France Wins","Aideen vs Aideen vs Eddie", "Aideen's France and Senegal battling among themselves and later Eddie's Norway, who will come out on top in Group I?"],
     rows: [
       { rank: 1, img: "Group I/France.png", text: "France", number: 9 },
       { rank: 3, img: "Group I/Senegal.png", text: "Senegal", number:  3 },
@@ -505,7 +511,7 @@ const TABLES = [
   },
   {
     title: "Group J",
-    headers: ["Macker vs Macker vs GG", "Macker's Argentina and Algeria battling among themselves and later GG's Austria, who will come out on top in Group J?"],
+    headers: ["Argentina Wins","Macker vs Macker vs GG", "Macker's Argentina and Algeria battling among themselves and later GG's Austria, who will come out on top in Group J?"],
     rows: [
       { rank: 1, img: "Group J/Argentina.png", text: "Argentina", number: 9 },
       { rank: 3, img: "Group J/Algeria.png", text: "Algeria", number:  4 },
@@ -515,7 +521,7 @@ const TABLES = [
   },
   {
     title: "Group K",
-    headers: ["GG vs Ross", "GG's Portugal vs Ross's Colombia, who will take the lead in Group K?"],
+    headers: ["Portugal Wins","GG vs Ross", "GG's Portugal vs Ross's Colombia, who will take the lead in Group K?"],
     rows: [
       { rank: 2, img: "Group K/Portugal.png", text: "Portugal", number: 5 },
       { rank: 3, img: "Group K/DR Congo.png", text: "DR Congo", number:  4 },
@@ -525,7 +531,7 @@ const TABLES = [
   },
   {
     title: "Group L",
-    headers: ["Alan vs Niall vs Alex", "Alan's England, Niall's Croatia, or Alex's Panama? Who will rise to the top of Group L?"],
+    headers: ["England Wins","Alan vs Niall vs Alex", "Alan's England, Niall's Croatia, or Alex's Panama? Who will rise to the top of Group L?"],
     rows: [
       { rank: 1, img: "Group L/England.png", text: "England", number: 7 },
       { rank: 2, img: "Group L/Croatia.png", text: "Croatia", number:  6 },
